@@ -1,5 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { signUp } from "./api";
+import { Input } from "./components/Input";
 
 export function SignUp() {
   const [username, setUsername] = useState();
@@ -12,8 +13,31 @@ export function SignUp() {
   const [generalError, setGeneralError] = useState();
 
   useEffect(() => {
-    setErrors({});
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        username: undefined,
+      };
+    });
   }, [username]);
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        email: undefined,
+      };
+    });
+  }, [email]);
+
+  useEffect(() => {
+    setErrors(function (lastErrors) {
+      return {
+        ...lastErrors,
+        password: undefined,
+      };
+    });
+  }, [password]);
 
   const onSubmit = async () => {
     event.preventDefault();
@@ -41,6 +65,13 @@ export function SignUp() {
       setApiProgress(false);
     }
   };
+
+  const passwordRepeatError = useMemo(() => {
+    if (password && password !== passwordRepeat) {
+      return "Passwords do not match";
+    } return '';
+  }, [password, passwordRepeat]);
+
   return (
     <div className="container">
       <div className="col-lg-6 offset-lg-3 col-sm-8 offset-2">
@@ -49,54 +80,32 @@ export function SignUp() {
             <h1> Sign Up </h1>
           </div>
           <div className="card-body">
-            <div className="mb-3">
-              <label htmlFor="username" className="form-label">
-                Username
-              </label>
-              <input
-                id="username"
-                className={
-                  errors.username ? "form-control is-invalid" : "form-control"
-                }
-                onChange={(event) => {
-                  setUsername(event.target.value);
-                  setErrors({});
-                }}
-              />
-              <div className="invalid-feedback"> {errors.username}</div>
-            </div>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                E-mail
-              </label>
-              <input
-                id="email"
-                className="form-control"
-                onChange={(event) => setEmail(event.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                Password
-              </label>
-              <input
-                id="password"
-                type="password"
-                className="form-control"
-                onChange={(event) => setPassword(event.target.value)}
-              />
-            </div>
-            <div className="mb-3">
-              <label htmlFor="passwordRepeat" className="form-label">
-                Password Repeat
-              </label>
-              <input
-                id="passwordRepeat"
-                type="password"
-                className="form-control"
-                onChange={(event) => setPasswordRepeat(event.target.value)}
-              />
-            </div>
+            <Input
+              id="username"
+              label="Username"
+              error={errors.username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
+            <Input
+              id="email"
+              label="E-mail"
+              error={errors.email}
+              onChange={(event) => setEmail(event.target.value)}
+            />
+            <Input
+              id="password"
+              label="Password"
+              error={errors.password}
+              onChange={(event) => setPassword(event.target.value)}
+              type="password"
+            />
+            <Input
+              id="passwordRepeat"
+              label="Password Repeat"
+              error={passwordRepeatError}
+              type="password"
+              onChange={(event) => setPasswordRepeat(event.target.value)}
+            />
 
             {successMessage && (
               <div className="alert alert-success"> {successMessage}</div>
