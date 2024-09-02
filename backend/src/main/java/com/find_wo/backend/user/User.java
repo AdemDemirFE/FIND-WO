@@ -1,5 +1,6 @@
 package com.find_wo.backend.user;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.find_wo.backend.user.validation.UniqueEmail;
 
 import jakarta.persistence.Entity;
@@ -33,6 +34,11 @@ public class User {
     @Pattern(regexp="^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).*$")
     String password;
 
+    // @JsonIgnore
+    boolean active = false;
+
+    // @JsonIgnore
+    String activationToken;
 
     public long getId() {
         return id;
@@ -64,5 +70,21 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
+
+    public String getActivationToken() {
+        return activationToken;
+    }
+
+    public void setActivationToken(String activationToken) {
+        this.activationToken = activationToken;
     }
 }
