@@ -1,4 +1,4 @@
-package com.find_wo.backend;
+package com.findwo.backend;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

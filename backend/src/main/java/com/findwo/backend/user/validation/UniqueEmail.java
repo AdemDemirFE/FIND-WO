@@ -1,4 +1,4 @@
-package com.find_wo.backend.user.validation;
+package com.findwo.backend.user.validation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

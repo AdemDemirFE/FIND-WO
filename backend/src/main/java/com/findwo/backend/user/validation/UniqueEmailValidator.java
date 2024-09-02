@@ -1,9 +1,9 @@
-package com.find_wo.backend.user.validation;
+package com.findwo.backend.user.validation;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.find_wo.backend.user.User;
-import com.find_wo.backend.user.UserRepository;
+import com.findwo.backend.user.User;
+import com.findwo.backend.user.UserRepository;
 
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

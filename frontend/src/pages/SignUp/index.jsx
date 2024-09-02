@@ -56,10 +56,13 @@ export function SignUp() {
       setSuccessMessage(response.successMessage);
     } catch (axiosError) {
       if (
-        axiosError.response?.data &&
-        axiosError.response.data.status === 400
+        axiosError.response?.data 
       ) {
-        setErrors(axiosError.response.data.validationErrors);
+        if( axiosError.response.data.status === 400) {
+          setErrors(axiosError.response.data.validationErrors);
+        } else {
+          setGeneralError(axiosError.response.data.message)
+        }
       } else {
         setGeneralError("Unexpected error occurred. Please try again");
       }

@@ -1,7 +1,7 @@
-package com.find_wo.backend.user.dto;
+package com.findwo.backend.user.dto;
 
-import com.find_wo.backend.user.User;
-import com.find_wo.backend.user.validation.UniqueEmail;
+import com.findwo.backend.user.User;
+import com.findwo.backend.user.validation.UniqueEmail;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 
 public record UserCreate(
-    @NotBlank(message = "{find_wo.constraint.username.notblank}")
+    @NotBlank(message = "{findwo.constraint.username.notblank}")
     @Size(min = 4, max=255)
     String username,
 

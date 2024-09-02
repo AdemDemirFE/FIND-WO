@@ -1,4 +1,4 @@
-package com.find_wo.backend.user;
+package com.findwo.backend.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.find_wo.backend.error.ApiError;
-import com.find_wo.backend.shared.GenericMessage;
-import com.find_wo.backend.shared.Messages;
-import com.find_wo.backend.user.dto.UserCreate;
+import com.findwo.backend.error.ApiError;
+import com.findwo.backend.shared.GenericMessage;
+import com.findwo.backend.shared.Messages;
+import com.findwo.backend.user.dto.UserCreate;
+import com.findwo.backend.user.exception.ActivationNotificationException;
+import com.findwo.backend.user.exception.NotUniqueEmailExeption;
 
 import jakarta.validation.Valid;
 
@@ -31,7 +33,7 @@ public class UserController {
     @PostMapping("/api/v1/users")
     GenericMessage createUser(@Valid @RequestBody UserCreate user){
         userService.save(user.toUser());
-        String message = Messages.getMessageForLocale("find_wo.create.user.success.message",  LocaleContextHolder.getLocale());
+        String message = Messages.getMessageForLocale("findwo.create.user.success.message",  LocaleContextHolder.getLocale());
         return new GenericMessage(message);
     }
 
@@ -39,13 +41,13 @@ public class UserController {
     ResponseEntity<ApiError> handleMethodNotValidEx(MethodArgumentNotValidException exception) {
         ApiError apiError = new ApiError();
         apiError.setPath("/api/v1/users");
-        String message = Messages.getMessageForLocale("find_wo.error.validation", LocaleContextHolder.getLocale());
+        String message = Messages.getMessageForLocale("findwo.error.validation", LocaleContextHolder.getLocale());
         apiError.setMessage(message);
         apiError.setStatus(400);
         var validationErrors = exception.getBindingResult().getFieldErrors().stream().collect(Collectors.toMap
         (FieldError::getField, FieldError::getDefaultMessage, (existing, replacing) -> existing));
         apiError.setValidationErrors(validationErrors);
-        return ResponseEntity.badRequest().body(apiError);
+        return ResponseEntity.status(400).body(apiError);
     }
     
     @ExceptionHandler(NotUniqueEmailExeption.class)
@@ -55,6 +57,16 @@ public class UserController {
         apiError.setMessage(exception.getMessage());
         apiError.setStatus(400);
         apiError.setValidationErrors(exception.getValidationErrors());
-        return ResponseEntity.badRequest().body(apiError);
+        return ResponseEntity.status(400).body(apiError);
     }
+
+    @ExceptionHandler(ActivationNotificationException.class)
+    ResponseEntity<ApiError> handleActivationNotificationException(ActivationNotificationException exception) {
+        ApiError apiError = new ApiError();
+        apiError.setPath("/api/v1/users");
+        apiError.setMessage(exception.getMessage());
+        apiError.setStatus(502);
+        return ResponseEntity.status(502).body(apiError);
+    }
+
 }

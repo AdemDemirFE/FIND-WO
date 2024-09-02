@@ -1,4 +1,4 @@
-package com.find_wo.backend.user;
+package com.findwo.backend.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 

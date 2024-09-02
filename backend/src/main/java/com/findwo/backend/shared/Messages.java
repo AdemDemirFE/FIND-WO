@@ -1,4 +1,4 @@
-package com.find_wo.backend.shared;
+package com.findwo.backend.shared;
 
 import java.text.MessageFormat;
 import java.util.Locale;
