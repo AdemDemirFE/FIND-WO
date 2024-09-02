@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.find_wo.backend.error.ApiError;
 import com.find_wo.backend.shared.GenericMessage;
 import com.find_wo.backend.shared.Messages;
+import com.find_wo.backend.user.dto.UserCreate;
 
 import jakarta.validation.Valid;
 
@@ -28,8 +29,8 @@ public class UserController {
     MessageSource messageSource;
 
     @PostMapping("/api/v1/users")
-    GenericMessage createUser(@Valid @RequestBody User user){
-        userService.save(user);
+    GenericMessage createUser(@Valid @RequestBody UserCreate user){
+        userService.save(user.toUser());
         String message = Messages.getMessageForLocale("find_wo.create.user.success.message",  LocaleContextHolder.getLocale());
         return new GenericMessage(message);
     }
