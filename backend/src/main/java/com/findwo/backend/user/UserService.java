@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import com.findwo.backend.email.EmailService;
 import com.findwo.backend.user.exception.ActivationNotificationException;
+import com.findwo.backend.user.exception.InvalidTokenException;
 import com.findwo.backend.user.exception.NotUniqueEmailExeption;
 
 import jakarta.transaction.Transactional;
@@ -38,6 +39,17 @@ public class UserService {
         } catch(MailException ex) {
             throw new ActivationNotificationException();
         }
+    }
+
+    
+    public void activateUser(String token) {
+        User inDB = userRepository.findByActivationToken(token);
+        if(inDB == null) {
+            throw new InvalidTokenException();
+        }
+        inDB.setActive(true);
+        inDB.setActivationToken(null);
+        userRepository.save(inDB);
     }
 
 }
