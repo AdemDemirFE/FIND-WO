@@ -22,7 +22,7 @@ export function NavBar() {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={logo} width={60} />
-          Hoaxify
+          FIND-WO
         </Link>
         <ul className="navbar-nav">
           {authState.id === 0 && (
