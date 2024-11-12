@@ -1,4 +1,5 @@
-export function Home() {
-    <h1> home </h1>
+import { UserList } from "./components/UserList";
 
+export function Home(){
+    return <UserList />
 }
