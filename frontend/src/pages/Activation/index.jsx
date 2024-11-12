@@ -1,28 +1,37 @@
-// import { activateUser } from "./api";
-// import { Alert } from "@/shared/components/Alert";
-// import { Spinner } from "@/shared/components/Spinner";
-// import { useRouteParamApiRequest } from "@/shared/hooks/useRouteParamApiRequest";
+import { Alert } from "../../shared/components/Alert";
+import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom"
 export function Activation() {
 
 
   const { token } = useParams()
-  
-  return <div>Activation page</div>
+  const { apiProgress, setApiProgres } = useState();
+  const { succesMessage, setSuccessMessage } =  useState('success');
+  const { errorMessage, setErrorMessage } = useState('error');
 
-  // const { apiProgress, data, error } = useRouteParamApiRequest(
-  //   "token",
-  //   activateUser
-  // );
-  // return (
-  //   <>
-  //     {apiProgress && (
-  //       <Alert styleType="secondary" center>
-  //         <Spinner />
-  //       </Alert>
-  //     )}
-  //     {data?.message && <Alert>{data.message}</Alert>}
-  //     {error && <Alert styleType="danger">{error}</Alert>}
-  //   </>
-  // );
+  useEffect(() => {
+    async function activate() {
+      setApiProgres(true);
+      try {
+        const response = await activate(token);
+        setSuccessMessage(response.data.message);
+      } catch (axiosError) {
+        setErrorMessage(axiosError.response.data.message);
+      } finally {
+        setApiProgres(false);
+      }
+    }
+    activate();
+  }, []);
+  
+  return (
+    <>
+      {apiProgress && (
+        <span className="spinner-border" aria-hidden="true"></span>
+      )}
+      {succesMessage && ( <Alert>{succesMessage}</Alert>
+      )}
+      {errorMessage && <Alert styleType="danger">{errorMessage}</Alert>}
+    </>
+  );
 }
