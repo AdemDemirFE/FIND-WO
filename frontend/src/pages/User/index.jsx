@@ -1,13 +1,16 @@
-import { activateUser } from "./api";
+import { getUser } from "./api";
 import { Alert } from "@/shared/components/Alert";
 import { Spinner } from "@/shared/components/Spinner";
 import { useRouteParamApiRequest } from "@/shared/hooks/useRouteParamApiRequest";
+import { ProfileCard } from "./components/ProfileCard";
 
-export function Activation() {
-  const { apiProgress, data, error } = useRouteParamApiRequest(
-    "token",
-    activateUser
-  );
+export function User() {
+  const {
+    apiProgress,
+    data: user,
+    error,
+  } = useRouteParamApiRequest("id", getUser);
+
   return (
     <>
       {apiProgress && (
@@ -15,7 +18,7 @@ export function Activation() {
           <Spinner />
         </Alert>
       )}
-      {data?.message && <Alert>{data.message}</Alert>}
+      {user && <ProfileCard user={user}/>}
       {error && <Alert styleType="danger">{error}</Alert>}
     </>
   );

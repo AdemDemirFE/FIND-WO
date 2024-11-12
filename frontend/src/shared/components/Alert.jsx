@@ -1,8 +1,6 @@
 export function Alert(props) {
-  const { children, styleType } = props;
+  const { children, styleType, center } = props;
   return (
-    <div className={`alert alert-${styleType || "success"}`}>
-      {children.successMessage}
-    </div>
+    <div className={`alert alert-${styleType || "success"} ${center ? 'text-center' : ''}`}>{children}</div>
   );
 }

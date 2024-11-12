@@ -1,12 +1,11 @@
 {
   "signUp": "Sign Up",
   "username": "Username",
-  "email": "Email",
+  "email": "E-mail",
   "password": "Password",
   "passwordRepeat": "Password Repeat",
   "passwordMismatch": "Password mismatch",
-  "genericError": "Unexpected error occurred. Please try again",
-  "submit": "Submit",
-  "resetPassword": "Reset Password",
-  "forgotPassword": "Forgot Password?"
+  "genericError": "Unexpected error occured. Please try again",
+  "userNotFoundError": "User not found",
+  "login": "Login"
 }

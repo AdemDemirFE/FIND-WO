@@ -13,7 +13,9 @@ export function NavBar() {
   const onClickLogout = async () => {
     try {
       await logout();
-    } catch { /* empty */ } finally {
+    } catch {
+
+    } finally {
       dispatch({type: 'logout-success'});
     }
   }
@@ -22,7 +24,7 @@ export function NavBar() {
       <div className="container-fluid">
         <Link className="navbar-brand" to="/">
           <img src={logo} width={60} />
-          FIND-WO
+          Hoaxify
         </Link>
         <ul className="navbar-nav">
           {authState.id === 0 && (
